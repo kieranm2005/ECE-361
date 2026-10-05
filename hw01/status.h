@@ -30,7 +30,13 @@
 
 // status_t
 typedef struct {
-
+bool heat; // 1 = heater on
+bool cool; // 1 = compressor on
+bool fan; // 1 = fan on
+bool fault; // 1 = fault present
+uint8_t mode; // 0 = off, 1 = heat, 2 = cool, 3 = auto, 4 = fan only, 5 = invalid
+bool reserved; // Must be zero
+int8_t setpoint; // Two's complement
 } status_t;
 
 #endif // STATUS_H
