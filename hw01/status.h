@@ -39,4 +39,6 @@ bool reserved; // Must be zero
 int8_t setpoint; // Two's complement
 } status_t;
 
+status_t status_unpack(uint16_t word);
+
 #endif // STATUS_H
