@@ -1,4 +1,5 @@
 #include "bits.h"
+#include <stdio.h>
 
 static uint32_t get_lowest(uint32_t x, int width) {
 if (width == 32) {
@@ -9,32 +10,32 @@ return x & mask;
 }
 
 void print_binary(uint32_t x, int width) {
+    print_binary_to(stdout, x, width);
+}
+
+void print_binary_to(FILE *stream, uint32_t x, int width) {
 uint32_t x_masked = get_lowest(x, width);
 for (int i = width - 1; i >= 0; i--) {
-    printf("%u", (x_masked >> i) & 1); // Shift bit at position 'i' to LSB, then mask to get 0 or 1
+    fprintf(stream, "%u", (unsigned int)((x_masked >> i) & 1u)); // Shift bit at position 'i' to LSB, then mask to get 0 or 1
     if (i % 4 == 0 && i != 0) { // Every 4 bits print a space
-        printf(" ");
+        fputc(' ', stream);
     }
 }
-printf("\n"); // Print a newline after
+fputc('\n', stream); // Print a newline after
 }
 
 static uint32_t input_validation(int pos, int width) {
-    if (width < 1 || width > 32 || pos < 0 || pos > 31 || pos + width > 32) {
+    if (width < 1 || width > 32 || pos < 0 || pos > 31) {
         return 0; // Invalid inputs, return 0
     }
-    else {
-        return 1;
-    }
+    return width <= 32 - pos;
 }
 
 uint32_t get_field(uint32_t word, int pos, int width) {
     if (input_validation(pos, width) == 0) { // Input validation
         return 0; // Invalid inputs, return 0
     }
-    word = word << (32 - width); // Discard bits to the right
-    word = word >> ((32 - width) + pos); // Shift to LSB
-    return word;
+    return get_lowest(word >> pos, width);
 }
 
 uint32_t set_field(uint32_t word, int pos, int width, uint32_t value) {
@@ -57,11 +58,11 @@ uint32_t set_field(uint32_t word, int pos, int width, uint32_t value) {
 
 int32_t sign_extend(uint32_t value, int width) { // Interprets the lowest width bits of value as a two’s complement number and returns it as an int32_t. sign_extend(0xF8, 8) returns -8.
     value = get_lowest(value, width); // Get the lowest 'width' bits of the value
-    if (width == 32) {
-        return (int32_t)value; // No sign extension needed for 32 bits
-    }
     if ((value >> (width - 1)) & 1) { // Check if the sign bit is set
-        value |= ~((1u << width) - 1); // Sign extend by setting all bits to the left to 1
+        if (width != 32) {
+            value |= ~((1u << width) - 1); // Sign extend by setting all bits to the left to 1
+        }
+        return -1 - (int32_t)(~value);
     }
     return (int32_t)value; // Return the sign-extended value as an int32_t
 }

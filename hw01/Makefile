@@ -1,9 +1,24 @@
 CC = gcc
-CFLAGS = -std=c11 -Wall -Wextra -g
-app: main.o util.o
-$(CC) $(CFLAGS) -o $@ $^
-%.o: %.c util.h
-$(CC) $(CFLAGS) -c $<
+CFLAGS = -std=c11 -Wall -Wextra
+
+OBJECTS = bits.o status.o
+TEST = tests/test_bits
+
+.PHONY: all test clean
+
+all: $(OBJECTS)
+
+test: $(TEST)
+	./$(TEST)
+
+$(TEST): tests/test_bits.c $(OBJECTS)
+	$(CC) $(CFLAGS) -I. -o $@ $^
+
+bits.o: bits.c bits.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+status.o: status.c status.h bits.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
 clean:
-rm -f *.o app
-.PHONY: clean
+	rm -f $(OBJECTS) $(TEST)
