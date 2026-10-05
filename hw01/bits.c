@@ -13,10 +13,21 @@ printf("\n"); //Print a newline after
 }
 
 uint32_t get_field(uint32_t word, int pos, int width) {
-    word = word << (32 - width); //Create zeros to the right
+    if (width > 32) {
+        width = 32; //Cap maximum width to 32
+    }
+    else if (width <= 0) {
+        width = 1; //Cap minimum width to 1
+    }
+    if (pos >= 32) {
+        pos = 31; //Cap maximum position to 31
+    }
+    else if (pos < 0) {
+        pos = 0; //Cap minimum position to 0
+    }
+    word = word << (32 - width); //Discard bits to the right
     word = word >> ((32 - width) + pos); //Shift to LSB
     return word;
-    
 }
 
 uint32_t set_field(uint32_t word, int pos, int width, uint32_t value) {
