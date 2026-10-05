@@ -5,8 +5,7 @@ if (width == 32) {
         return x;
     }
 uint32_t mask = (1u << width) - 1;
-uint32_t x_masked = x & mask;
-return x_masked;
+return x & mask;
 }
 
 void print_binary(uint32_t x, int width) {
