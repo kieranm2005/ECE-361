@@ -1,10 +1,21 @@
 #include "bits.h"
 
 void print_binary(uint32_t x, int width) {
-
+uint32_t mask = (1u << width) - 1; //Creates a mask where the lowest 'width' bits are set to 1
+uint32_t x_masked = x & mask; //Set all bits above the lowest 'width' bits to 0
+for (int i = width - 1; i >= 0; i--) {
+    printf("%u", (x_masked >> i) & 1); //Shift bit at position 'i' to LSB, then mask to get 0 or 1
+    if (i % 4 == 0 && i != 0) { //Every 4 bits print a space
+        printf(" ");
+    }
+}
+printf("\n"); //Print a newline after
 }
 
 uint32_t get_field(uint32_t word, int pos, int width) {
+    word = word << (32 - width); //Create zeros to the right
+    word = word >> ((32 - width) + pos); //Shift to LSB
+    return word;
     
 }
 
