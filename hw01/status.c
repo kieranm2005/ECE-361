@@ -8,11 +8,11 @@ status_t status_unpack(uint16_t word) {
     status.fan = (get_field(word, FAN_POS, FAN_WIDTH) != 0);
     status.fault = (get_field(word, FAULT_POS, FAULT_WIDTH) != 0);
 
-    uint32_t mode = get_field(word, MODE_POS, MODE_WIDTH);
-    if (mode >= 5 && mode <= 7) {
+    uint32_t raw_mode = get_field(word, MODE_POS, MODE_WIDTH);
+    if (raw_mode >= 5 && raw_mode <= 7) {
         status.mode = MODE_INVALID; // Modes 5, 6, 7 are invalid
     } else {
-        status.mode = (uint8_t)mode; // Cast from uint32_t to uint8_t to fit the status_t structure
+        status.mode = (uint8_t)raw_mode; // Cast from uint32_t to uint8_t to fit the status_t structure
     }
 
     status.reserved = (get_field(word, RESERVED_POS, RESERVED_WIDTH) != 0);
