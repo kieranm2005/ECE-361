@@ -19,7 +19,7 @@ for (int i = width - 1; i >= 0; i--) {
 printf("\n"); //Print a newline after
 }
 
-static uint32_t input_validation(uint32_t word, int pos, int width) {
+static uint32_t input_validation(int pos, int width) {
     if (width < 1 || width > 32 || pos < 0 || pos > 31 || pos + width > 32) {
         return 0; //Invalid inputs, return 0
     }
