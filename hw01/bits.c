@@ -2,23 +2,23 @@
 #include <stdio.h>
 
 static uint32_t get_lowest(uint32_t x, int width) {
-if (width == 32) {
+if (width == 32) { // If the width is 32, return the entire value as is
         return x;
     }
-uint32_t mask = (1u << width) - 1;
-return x & mask;
+uint32_t mask = (1u << width) - 1; // Create a mask with the lowest 'width' bits set to 1
+return x & mask; // Return the lowest 'width' bits of x
 }
 
 void print_binary(uint32_t x, int width) {
-    print_binary_to(stdout, x, width);
+    print_binary_to(stdout, x, width); // Print the binary representation of x to stdout
 }
 
 void print_binary_to(FILE *stream, uint32_t x, int width) {
-uint32_t x_masked = get_lowest(x, width);
-for (int i = width - 1; i >= 0; i--) {
+uint32_t x_masked = get_lowest(x, width); // Get the lowest 'width' bits of x
+for (int i = width - 1; i >= 0; i--) { // Iterate from the highest bit to the lowest bit
     fprintf(stream, "%u", (unsigned int)((x_masked >> i) & 1u)); // Shift bit at position 'i' to LSB, then mask to get 0 or 1
     if (i % 4 == 0 && i != 0) { // Every 4 bits print a space
-        fputc(' ', stream);
+        fputc(' ', stream); // Print a space
     }
 }
 fputc('\n', stream); // Print a newline after
@@ -62,7 +62,7 @@ int32_t sign_extend(uint32_t value, int width) { // Interprets the lowest width 
         if (width != 32) {
             value |= ~((1u << width) - 1); // Sign extend by setting all bits to the left to 1
         }
-        return -1 - (int32_t)(~value);
+        return -1 - (int32_t)(~value); // Return the sign-extended negative value
     }
     return (int32_t)value; // Return the sign-extended value as an int32_t
 }

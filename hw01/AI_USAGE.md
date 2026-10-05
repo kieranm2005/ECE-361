@@ -1,1 +1,1 @@
-AI was used to generate commit messages, test_bits.c, and the makefile.
+AI was used to generate commit messages, the majority of the tests in test_bits.c, the makefile and the README.md. It was also used to refactor print_binary() in order to be more easily tested.
