@@ -55,6 +55,13 @@ uint32_t set_field(uint32_t word, int pos, int width, uint32_t value) {
     return word;
 }
 
-int32_t sign_extend(uint32_t value, int width) {
-    
+int32_t sign_extend(uint32_t value, int width) { //Interprets the lowest width bits of value as a two’s complement number and returns it as an int32_t. sign_extend(0xF8, 8) returns -8.
+    value = get_lowest(value, width); //Get the lowest 'width' bits of the value
+    if (width == 32) {
+        return (int32_t)value; //No sign extension needed for 32 bits
+    }
+    if ((value >> (width - 1)) & 1) { //Check if the sign bit is set
+        value |= ~((1u << width) - 1); //Sign extend by setting all bits to the left to 1
+    }
+    return (int32_t)value; //Return the sign-extended value as an int32_t
 }
