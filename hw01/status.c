@@ -16,7 +16,7 @@ status_t status_unpack(uint16_t word) {
     }
 
     status.reserved = (get_field(word, RESERVED_POS, RESERVED_WIDTH) != 0);
-    status.setpoint = (int8_t)get_field(word, SETPOINT_POS, SETPOINT_WIDTH); // Cast from uint32_t to int8_t to fit the status_t structure
+    status.setpoint = (int8_t)sign_extend(get_field(word, SETPOINT_POS, SETPOINT_WIDTH), SETPOINT_WIDTH);
 
     return status;
 }
