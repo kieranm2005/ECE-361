@@ -29,7 +29,7 @@ static uint32_t input_validation(int pos, int width) {
 }
 
 uint32_t get_field(uint32_t word, int pos, int width) {
-    if (input_validation(word, pos, width) == 0) { //Input validation
+    if (input_validation(pos, width) == 0) { //Input validation
         return 0; //Invalid inputs, return 0
     }
     word = word << (32 - width); //Discard bits to the right
@@ -38,7 +38,7 @@ uint32_t get_field(uint32_t word, int pos, int width) {
 }
 
 uint32_t set_field(uint32_t word, int pos, int width, uint32_t value) {
-    if (input_validation(word, pos, width) == 0) { //Input validation
+    if (input_validation(pos, width) == 0) { //Input validation
         return 0; //Invalid inputs, return 0
     }
     value = get_lowest(value, width); //Mask the value to the lowest 'width' bits
