@@ -52,6 +52,18 @@ graph TD;
 
     subgraph main_module["main"]
         main_function["main()"]
+        parse_args["parse command-line threshold"]
+        allocate_data["allocate reading arrays"]
+        print_counts["print reading and skipped counts"]
+        handle_empty["handle empty input"]
+        print_summary["print temperature and humidity summaries"]
+        print_run["print longest above-threshold run"]
+        main_function-->parse_args
+        main_function-->allocate_data
+        main_function-->print_counts
+        main_function-->handle_empty
+        main_function-->print_summary
+        main_function-->print_run
     end
 
     reading_module-->reading_read
