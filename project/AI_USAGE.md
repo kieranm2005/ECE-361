@@ -1,0 +1,1 @@
+AI was used to generate the makefile and stubs in headers.
