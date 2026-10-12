@@ -27,6 +27,10 @@
 #define NUM_BINS     20          /* histogram: 0 to 100 C in 5 C bins */
 #define BIN_WIDTH    5.0f
 
+/*
+ * Storage for all valid readings read from stdin. Each line contributes one
+ * tick value (the sample number), a temperature, and a humidity value.
+ */
 int   ticks[MAX_READINGS];
 float temps[MAX_READINGS];
 float hums[MAX_READINGS];
@@ -34,7 +38,11 @@ int   count = 0;
 int   skipped = 0;
 float threshold = 30.0f;
 
-/* largest temperature from index i to the end, recursively */
+/*
+ * Recursively scans the temperature array from index i to the end and returns
+ * the maximum value. This keeps the printout simple without needing a separate
+ * max loop.
+ */
 float max_temp(int i) {
     if (i == count - 1)
         return temps[i];
@@ -45,6 +53,11 @@ float max_temp(int i) {
 int main(int argc, char *argv[]) {
     char line[LINE_LEN];
 
+    /*
+     * Command-line handling: accept an optional temperature threshold and reject
+     * malformed usage. The threshold is converted from a string to a floating
+     * point value so later comparisons against the temperature data work.
+     */
     if (argc > 2) {
         fprintf(stderr, "usage: %s [threshold] < readings.txt\n", argv[0]);
         return 1;
@@ -58,6 +71,11 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    /*
+     * Read each line from standard input. Blank lines, comment lines, and lines
+     * with leading whitespace are ignored. Valid data lines are parsed as
+     * "tick temperature humidity" and stored in parallel arrays.
+     */
     while (fgets(line, sizeof line, stdin) != NULL) {
         int i = 0;
         while (line[i] == ' ' || line[i] == '\t')
@@ -74,6 +92,11 @@ int main(int argc, char *argv[]) {
             skipped++;
     }
 
+    /*
+     * Report how many samples were processed and how many were skipped because
+     * they were empty, comments, or invalid data. If no valid readings exist,
+     * the program stops early instead of trying to compute statistics.
+     */
     printf("readings: %d\n", count);
     printf("skipped:  %d\n", skipped);
     if (count == 0) {
@@ -81,7 +104,11 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    /* temperature: min and mean */
+    /*
+     * Temperature summary: find the minimum, maximum, and mean across the valid
+     * temperature values. The min is tracked in the same pass that computes the
+     * total; the max is delegated to the recursive helper max_temp().
+     */
     float tmin = temps[0];
     float tsum = 0.0f;
     for (int i = 0; i < count; i++) {
@@ -91,7 +118,11 @@ int main(int argc, char *argv[]) {
     }
     printf("temperature: min %6.1f  max %6.1f  mean %6.2f C\n", tmin, max_temp(0), tsum / count);
 
-    /* humidity: min, max, and mean, the same loop again */
+    /*
+     * Humidity summary: the same kind of statistics are computed for humidity.
+     * This loop tracks the minimum, maximum, and running sum, then prints the
+     * average as relative humidity.
+     */
     float hmin = hums[0];
     float hmax = hums[0];
     float hsum = 0.0f;
@@ -104,7 +135,11 @@ int main(int argc, char *argv[]) {
     }
     printf("humidity:    min %6.1f  max %6.1f  mean %6.2f %%RH\n", hmin, hmax, hsum / count);
 
-    /* longest run of consecutive readings above the threshold */
+    /*
+     * Longest hot streak: scan the temperature data and count consecutive values
+     * above the threshold. When the streak grows larger than the current best,
+     * remember its starting tick so the final output can report the exact range.
+     */
     int run = 0, best = 0, best_start = -1, start = 0;
     for (int i = 0; i < count; i++) {
         if (temps[i] > threshold) {
@@ -125,7 +160,11 @@ int main(int argc, char *argv[]) {
         printf("above %.1f C: longest run %d readings, from tick %d to tick %d\n",
                threshold, best, ticks[best_start], ticks[best_start + best - 1]);
 
-    /* histogram of temperatures, 5 C bins; values outside 0..100 go to the end bins */
+    /*
+     * Histogram: bucket every temperature into 5 C ranges so the output shows a
+     * compact distribution. Values below zero are clamped to the first bin and
+     * values above the last bin are clamped to the final bin.
+     */
     int bins[NUM_BINS] = {0};
     for (int i = 0; i < count; i++) {
         int b = (int) (temps[i] / BIN_WIDTH);
