@@ -1,1 +1,1 @@
-AI was used to generate commit messages, the makefile, and stubs in headers.
+AI was used to generate commit messages, the makefile, the tables in SPEC.md, and stubs in headers.
