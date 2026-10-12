@@ -1,1 +1,1 @@
-AI was used to generate commit messages, annotate readings.c, correct cases where a variable was used instead of its pointer/memory address or vice versa, write prototype descriptions, write the Make file, and to write the tests. 
+AI was used to generate commit messages, annotate readings.c, correct cases where a variable was used instead of its pointer/memory address or vice versa, write prototype descriptions, write the Make file, and to write the tests. Correcting pointer/memory address usage had to be finalized manually because my prompt was unclear.
