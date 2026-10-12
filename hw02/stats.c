@@ -46,7 +46,7 @@ int stats_longest_run_above(const float a[], int n, float threshold, int *start_
             run = 0;
         }
     }
-            }
-        }
-    }
+
+    *start_out = best_start;
+    return best;
 }
