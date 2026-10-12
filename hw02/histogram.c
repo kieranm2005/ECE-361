@@ -1,7 +1,8 @@
 #include "histogram.h"
 #include <stdio.h>
 
-void histogram_print(const float a[], int n) {
+void histogram_print(const float a[], int n)
+{
     int bins[HISTOGRAM_NUM_BINS] = {0};
 
     for (int i = 0; i < n; i++) {
@@ -17,10 +18,10 @@ void histogram_print(const float a[], int n) {
     for (int b = 0; b < HISTOGRAM_NUM_BINS; b++) {
         if (bins[b] == 0)
             continue;
-        printf(" %5.1f to %5.1f C | ", b * HISTOGRAM_BIN_WIDTH, (b + 1) * HISTOGRAM_BIN_WIDTH);
+        printf("  %5.1f to %5.1f C | ", b * HISTOGRAM_BIN_WIDTH,
+               (b + 1) * HISTOGRAM_BIN_WIDTH);
         for (int k = 0; k < bins[b]; k++)
             putchar('*');
         printf(" %d\n", bins[b]);
-    }
     }
 }
