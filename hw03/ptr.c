@@ -35,5 +35,18 @@ int minmax(const float *a, int n, float *min, float *max) {
 }
 
 const float *find_above(const float *a, int n, float threshold) {
-    
+    if (a == NULL || n < 1) { // Check for null pointer or invalid size
+        return NULL;
+    }
+
+    const float *p = a; // Initialize pointer to the start of the array
+    const float *end = a + n; // Pointer to the end of the array
+
+    while (p < end) { // Iterate through the array
+        if (*p > threshold) {
+            return p; // Return pointer to the first value greater than threshold
+        }
+        p++; // Move to the next element
+    }
+    return NULL; // Return NULL if no value greater than threshold is found
 }
