@@ -1,0 +1,1 @@
+AI was used to generate commit messages, README.md, the tests in test_ptr.c, and the Makefile.
