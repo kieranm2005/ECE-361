@@ -33,3 +33,7 @@ int minmax(const float *a, int n, float *min, float *max) {
     *max = high; // Store the largest value in *max
     return 0;
 }
+
+const float *find_above(const float *a, int n, float threshold) {
+    
+}
