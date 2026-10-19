@@ -21,4 +21,5 @@ const float *find_above(const float *a, int n, float threshold);
 * Reverses a[0..n-1] in place, does nothing if n < 2 or a is NULL.
  */
 void reverse(float *a, int n);
+
 #endif
