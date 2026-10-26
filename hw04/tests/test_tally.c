@@ -65,17 +65,29 @@ static int test_name_lengths(void) /* Tests adding names of valid and invalid le
 
 static int test_invalid_arguments(void) /* Tests passing NULL and empty arguments. */
 {
+	FILE *file = tmpfile();
 	tally_t *t = tally_create();
 	int passed;
 
 	passed = t != NULL && tally_add(t, "") == -1
 		&& tally_add(t, NULL) == -1
+		&& tally_add(NULL, "name") == -1
 		&& tally_count(t, NULL) == 0
 		&& tally_count(NULL, "name") == 0
 		&& tally_size(NULL) == 0;
-	tally_print(NULL, stdout);
+	if (passed && file == NULL)
+		passed = 0;
+	if (passed) {
+		tally_print(NULL, file);
+		rewind(file);
+		passed = fgetc(file) == EOF;
+	}
 	tally_print(t, NULL);
 	tally_destroy(NULL);
+	passed = passed && tally_add(t, "valid") == 1
+		&& tally_count(t, "valid") == 1;
+	if (file != NULL)
+		fclose(file);
 	tally_destroy(t);
 	return passed;
 }
