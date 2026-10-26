@@ -130,6 +130,23 @@ static int test_destroy_and_independence(void) /* Tests destroying a tally and c
 	return passed;
 }
 
+static int test_concurrent_independence(void) /* Tests two live tallies independently. */
+{
+	tally_t *first = tally_create();
+	tally_t *second = tally_create();
+	int passed;
+
+	passed = first != NULL && second != NULL
+		&& tally_add(first, "first") == 1
+		&& tally_add(first, "first") == 2
+		&& tally_count(second, "first") == 0
+		&& tally_add(second, "second") == 1
+		&& tally_count(first, "second") == 0;
+	tally_destroy(first);
+	tally_destroy(second);
+	return passed;
+}
+
 static int test_print_order(void) /* Tests that tally_print outputs names in sorted order. */
 {
 	char output[64];
@@ -168,7 +185,8 @@ int main(void) /* Runs all tests and reports the results. */
 	report("NULL and empty arguments", test_invalid_arguments());
 	report("full tally", test_full_tally());
 	report("tally allocation limit", test_tally_limit());
-	report("destroy and independent tallies", test_destroy_and_independence());
+	report("destroy and reuse", test_destroy_and_independence());
+	report("concurrent tally independence", test_concurrent_independence());
 	report("print order", test_print_order());
 	printf("Summary: %d tests, %d passed, %d failed\n",
 		tests_run, tests_run - tests_failed, tests_failed);
