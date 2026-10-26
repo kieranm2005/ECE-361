@@ -1,1 +1,1 @@
-AI was used to generate the Makefile, write the tests in /tests/test_tally.c, generate comments in tally.c, and write the README.
+AI was used to generate commit messages, generate the Makefile, write the tests in /tests/test_tally.c, generate comments in tally.c, and write the README excluding the section on Part 3.
