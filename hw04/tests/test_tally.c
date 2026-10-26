@@ -35,7 +35,10 @@ static int test_missing_name(void) /* Tests counting a name that was never added
 	tally_t *t = tally_create();
 	int passed;
 
-	passed = t != NULL && tally_count(t, "missing") == 0;
+	passed = t != NULL && tally_add(t, "present") == 1
+		&& tally_count(t, "missing") == 0
+		&& tally_count(t, "present") == 1
+		&& tally_size(t) == 1;
 	tally_destroy(t);
 	return passed;
 }
