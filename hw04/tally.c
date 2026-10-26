@@ -27,6 +27,16 @@ static int is_valid_tally(const tally_t *t) /* Receives the tally to validate. *
 	return 0; /* Rejects null, foreign, or inactive pointers. */
 }
 
+static int is_valid_name(const char *name) /* Receives the name to validate. */
+{
+	size_t length;
+
+	if (name == NULL) /* Checks for a null name. */
+		return 0; /* Rejects a null name. */
+	length = strlen(name); /* Measures the supplied name. */
+	return length > 0 && length <= TALLY_LEN; /* Checks the allowed length. */
+}
+
 tally_t * tally_create(void) /* Creates a tally. */
 {
 	int i;
@@ -62,12 +72,10 @@ int tally_add(tally_t *t, const char *name)
 	int i;
 	int position;
 
-	if (!is_valid_tally(t) || name == NULL) /* Input validation. */
+	if (!is_valid_tally(t) || !is_valid_name(name)) /* Input validation. */
 		return -1; /* Reports invalid input. */
 
-	length = strlen(name); /* Measures the supplied name. */
-	if (length == 0 || length > TALLY_LEN) /* Checks the allowed length. */
-		return -1; /* Reports an invalid name length. */
+	length = strlen(name); /* Measures the validated name. */
 
 	position = t->size; /* Defaults insertion to the end. */
 	for (i = 0; i < t->size; i++) { /* Searches existing entries. */
@@ -98,7 +106,7 @@ int tally_count(const tally_t *t, const char *name) /* Receives a tally and name
 {
 	int i;
 
-	if (!is_valid_tally(t) || name == NULL) /* Input validation. */
+	if (!is_valid_tally(t) || !is_valid_name(name)) /* Input validation. */
 		return 0; /* Reports no matching count. */
 	for (i = 0; i < t->size; i++) { /* Checks every entry. */
 		if (strcmp(name, t->entries[i].name) == 0) /* Compares the names. */
