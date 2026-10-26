@@ -1,0 +1,8 @@
+# Door events
+open
+close
+
+open
+alarm
+close
+unrecognized event name

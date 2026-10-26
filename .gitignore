@@ -1,2 +1,4 @@
 readings
 *.o
+events
+test_tally
