@@ -1,5 +1,5 @@
 CC      = cc
-CFLAGS  = -std=c11 -D_POSIX_C_SOURCE=200809L -Wall -Wextra -Wpedantic -O2
+CFLAGS  = -std=c11 -D_POSIX_C_SOURCE=200809L -Wall -Wextra
 TARGET  = lock
 OBJS    = lock.o main.o
 TOBJS   = lock.o tests/test_lock.o
