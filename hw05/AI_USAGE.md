@@ -1,0 +1,1 @@
+AI was used to write the tests in /tests, generate commit messages, write the Makefile, write the README and create the mermaid diagram (though the contents of the diagram and transition table were manually derived), and to write BONUS.md.
