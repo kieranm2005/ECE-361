@@ -14,6 +14,17 @@ state_t lock_step(state_t s, event_t e, action_t *action)
 {
     transition_t t = lock_table[s][e];
     if (action)
-        *action = t.action;
-    return t.next;
+        *action = t.action; // Store the action to be performed
+    return t.next; // Return the next state
+}
+
+/* Next expected digit for each state, or '\0' if none. */
+static char next_digit(state_t s)
+{
+    switch (s) {
+    case LOCKED: return '3'; // First digit of the combination
+    case GOT1:   return '1'; // Second digit of the combination
+    case GOT2:   return '4'; // Third digit of the combination
+    default:     return '\0'; 
+    }
 }
