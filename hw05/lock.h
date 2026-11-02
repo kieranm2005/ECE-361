@@ -25,3 +25,5 @@ int lock_event(state_t s, char c);
 const char *state_name(state_t s);
 const char *event_name(event_t e);
 const char *action_name(action_t a);
+
+#endif
