@@ -17,7 +17,7 @@ make test
 ## Run
 
 ```
-./replay scenario.txt
+./replay scenarios/scenarioname.txt
 ```
 
 ## Clean
