@@ -1,1 +1,1 @@
-AI was used to write the commit messages, README.md, scenario.h, 
+AI was used to write the commit messages, README.md, scenario.h, print_time() in main.c, test_hw06.c, regress.sh, the Makefile

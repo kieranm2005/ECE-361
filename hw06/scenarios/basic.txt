@@ -1,0 +1,8 @@
+# basic: a press, a release, and a held switch
+start 1791273600
+# tick temp rh switches
+0 21.5 40.0 0x0
+1 21.5 40.0 0x1
+2 21.5 40.0 0x1
+3 22.0 41.0 0x0
+4 22.0 41.0 0x2
