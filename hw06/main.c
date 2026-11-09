@@ -11,16 +11,16 @@
 
 static void print_time(time_t t)
 {
-    struct tm tm_utc; // structure to hold the broken-down time in UTC
+    struct tm *tm_utc = gmtime(&t); // convert the timestamp to UTC
     char buf[32]; // buffer to hold the formatted time string
 
-    if (gmtime_r(&t, &tm_utc) == NULL) { // if conversion fails
+    if (tm_utc == NULL) { // if conversion fails
         // cannot happen for sane timestamps
-        fputs("????-??-?? ??:??:??", stdout);
+        fputs("??" "??" "-" "??" "-" "??" " " "??" ":" "??" ":" "??", stdout);
         return;
     }
-    if (strftime(buf, sizeof buf, "%Y-%m-%d %H:%M:%S", &tm_utc) == 0) { // if formatting fails
-        fputs("????-??-?? ??:??:??", stdout);
+    if (strftime(buf, sizeof buf, "%Y-%m-%d %H:%M:%S", tm_utc) == 0) { // if formatting fails
+        fputs("??" "??" "-" "??" "-" "??" " " "??" ":" "??" ":" "??", stdout);
         return;
     }
     fputs(buf, stdout); // print the formatted time string
