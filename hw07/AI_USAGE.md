@@ -1,0 +1,1 @@
+AI was used to generate the tests, the text file inputs, the expected outputs, the expected results, the regress.sh, the Makefile, and to write README.md with the exception of Part 4. AI was used to give the Part 4 section markdown styling.
