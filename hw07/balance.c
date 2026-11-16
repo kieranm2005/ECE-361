@@ -78,6 +78,6 @@ int main(void)
     }
 
 done:
-    istack_destroy(s); // destroy the stack to free any allocated memory before exiting the program
+istack_destroy(s); // destroy the stack to free any allocated memory before exiting the program
     return exit_status; // return the exit status of the program, indicating success or failure based on whether the brackets were balanced
 }
