@@ -1,4 +1,4 @@
-CC      = cc
+CC      = gcc
 CFLAGS  = -std=c11 -D_POSIX_C_SOURCE=200809L -Wall -Wextra
 TARGET  = lock
 OBJS    = lock.o main.o
