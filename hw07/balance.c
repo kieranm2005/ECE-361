@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_OPEN 256   // maximum number of open brackets that can be tracked at once
-
 typedef struct {
     char kind; // the kind of bracket that was opened
 } open_info;
