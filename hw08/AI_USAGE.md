@@ -1,0 +1,1 @@
+AI was used to write commit messages, create the Makefile and tests, and to format the README.
