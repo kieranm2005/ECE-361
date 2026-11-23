@@ -87,20 +87,35 @@ int bst_insert(bst_t *t, int key) {
 
 bool bst_contains(const bst_t *t, int key, size_t *visits) {
     size_t count = 0;
-    if (t == NULL) { if (visits) *visits = 0; return false; }
+    struct node *current;
 
-    struct node *current = t->root;
-    while (current->data != key) {
-        count++;
-        if (current->data > key)
-            current = current->leftChild;
-        else
-            current = current->rightChild;
-        if (current == NULL) { if (visits) *visits = count; return false; }
+    if (t == NULL || t->root == NULL) { // If the tree is NULL or the root of the tree is NULL (indicating that the tree is empty), return false.
+        if (visits != NULL) {
+            *visits = 0;
+        }
+        return false;
     }
-    count++;
-    if (visits) *visits = count;
-    return true;
+
+    current = t->root;
+    while (current != NULL) { // While the current node is not NULL, continue traversing the tree to search for the key.
+        count++;
+        if (current->data == key) { // If the data of the current node matches the key being searched for, it means the key is found in the tree.
+            if (visits != NULL) {
+                *visits = count;
+            }
+            return true;
+        }
+        if (current->data > key) { // If the data of the current node is greater than the key being searched for, move to the left child of the current node to continue searching.
+            current = current->leftChild;
+        } else {
+            current = current->rightChild;
+        }
+    }
+
+    if (visits != NULL) {
+        *visits = count;
+    }
+    return false;
 }
 
 size_t bst_size(const bst_t *t) {
