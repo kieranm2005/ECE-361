@@ -1,1 +1,1 @@
-AI was used to write commit messages, create the Makefile and tests, and to format the README.
+AI was used to write commit messages, create the bst_remove function, create the Makefile and tests, and to format the README.

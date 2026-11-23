@@ -1,13 +1,16 @@
-CC      = cc
-CFLAGS  = -std=c11 -Wall -Wextra -Wpedantic -g
+CC       = cc
+CFLAGS   = -std=c11 -Wall -Wextra -Wpedantic -g
 SANFLAGS = -fsanitize=address,undefined -fno-omit-frame-pointer
 
-SRC     = bst.c treestats.c
-TEST    = tests/test_bst.c
-BIN     = treestats
-TESTBIN = test_bst
+BIN       = treestats
+TESTBIN   = test_bst
+REMTEST   = test_remove
 
-.PHONY: all test memcheck clean bonus
+SRC       = bst.c treestats.c
+TEST      = tests/test_bst.c
+RMTEST    = tests/test_remove.c
+
+.PHONY: all test memcheck bonus clean
 
 all: $(BIN)
 
@@ -25,5 +28,11 @@ memcheck:
 	$(CC) $(CFLAGS) $(SANFLAGS) -o $(TESTBIN) $(TEST) bst.c
 	./$(TESTBIN)
 
+$(REMTEST): $(RMTEST) bst.c bst.h
+	$(CC) $(CFLAGS) $(SANFLAGS) -o $@ $(RMTEST) bst.c
+
+bonus: $(REMTEST)
+	./$(REMTEST)
+
 clean:
-	rm -f $(BIN) $(TESTBIN) test_remove
+	rm -f $(BIN) $(TESTBIN) $(REMTEST)

@@ -36,4 +36,13 @@ size_t bst_size(const bst_t *t);
  */
 size_t bst_height(const bst_t *t);
 
+/*
+ * Removes one copy of key — the first one a search reaches — and frees
+ * exactly one node. A node with two children takes the smallest key of
+ * its right subtree, and that key's node is removed instead.
+ * Returns 0 on success, or -1 if t is NULL or key is not in the tree
+ * (in which case the tree is unchanged).
+ */
+int bst_remove(bst_t *t, int key);
+
 #endif

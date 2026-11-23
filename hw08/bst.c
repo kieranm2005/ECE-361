@@ -142,3 +142,62 @@ size_t bst_height(const bst_t *t) {
     }
     return subtree_height(t->root);
 }
+
+static struct node *min_node(struct node *n) {
+    while (n->leftChild != NULL) { // Traverse the left children of the subtree until reaching the leftmost node, which has the minimum value.
+        n = n->leftChild;
+    }
+    return n; // Return the leftmost node, which contains the minimum value in the subtree.
+}
+
+int bst_remove(bst_t *t, int key) {
+    if (t == NULL) {
+        return -1;
+    }
+
+    struct node *parent = NULL;
+    struct node *current = t->root;
+
+    while (current != NULL && current->data != key) {
+        parent = current;
+        if (key < current->data) {
+            current = current->leftChild;
+        } else {
+            current = current->rightChild;
+        }
+    }
+
+    if (current == NULL) {
+        return -1;                  /* key not in the tree */
+    }
+
+    /* Two children: take right subtree's minimum key, remove that node. */
+    if (current->leftChild != NULL && current->rightChild != NULL) {
+        struct node *min_parent = current;
+        struct node *min = current->rightChild;
+        while (min->leftChild != NULL) {
+            min_parent = min;
+            min = min->leftChild;
+        }
+        current->data = min->data;  /* move the key up */
+        parent = min_parent;
+        current = min;              /* now remove min (0 or 1 child) */
+    }
+
+    /* Zero or one child: splice current out of the tree. */
+    struct node *child = (current->leftChild != NULL)
+                       ? current->leftChild
+                       : current->rightChild;
+
+    if (parent == NULL) {
+        t->root = child;            /* removing the root */
+    } else if (parent->leftChild == current) {
+        parent->leftChild = child;
+    } else {
+        parent->rightChild = child;
+    }
+
+    free(current);
+    t->size--;
+    return 0;
+}
